@@ -56,3 +56,7 @@ input {
 spacing {
     margin-bottom: 10px;
 }
+
+h2 {
+    padding: 20px;
+}
