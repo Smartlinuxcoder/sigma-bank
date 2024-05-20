@@ -19,12 +19,11 @@ result {
 }
 
 list {
-    align-items: center;
-
     direction: row;
-    gap: 60;
+    gap: 600;
     margin-top: 20px;
     margin-bottom: 20px;
+
 }
 
 list2 {
@@ -34,6 +33,7 @@ list2 {
 }
 
 item {
+    align-items: left;
     direction: column;
     gap:10;
 }
@@ -59,4 +59,10 @@ spacing {
 
 h2 {
     padding: 20px;
+}
+
+or {
+    direction: column;
+    align-items: right;
+    gap:10;
 }

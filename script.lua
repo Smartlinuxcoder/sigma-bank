@@ -13,19 +13,27 @@ local token
 
 local function formatTransactions(data)
     local formattedData = {}
-    for _, transaction in ipairs(data.transactions) do
-        local formattedTransaction = string.format(
-            "[%d] - Sender: %s, Receiver: %s, Amount: %d, Timestamp: %s\n",
-            transaction.id,
-            transaction.sender,
-            transaction.receiver,
-            transaction.amount,
-            transaction.timestamp
-        )
-        table.insert(formattedData, formattedTransaction)
+    for _, transaction in ipairs(data) do
+        local success, formattedTransaction = pcall(function()
+            return string.format(
+                "[%d] - Sender: %s, Receiver: %s, Amount: %d, Timestamp: %s\n",
+                transaction.id,
+                transaction.sender,
+                transaction.receiver,
+                transaction.amount,
+                transaction.timestamp
+            )
+        end)
+        if success then
+            table.insert(formattedData, formattedTransaction)
+        else
+            print("Error formatting transaction:", formattedTransaction)
+            -- You can choose to handle the error in any appropriate way here
+        end
     end
     return table.concat(formattedData)
 end
+
 
 
 
@@ -74,7 +82,9 @@ loginbutton.on_click(function()
 				["Authorization"] = token 
 			},
 		})
+--[[ 		print(transactionss.transactions)
 		print(formatTransactions(transactionss.transactions))
+		print("finished") ]]
 		transactionsitem.set_content(formatTransactions(transactionss.transactions))
 	else
 		result.set_content("Failed due to unknown error.")
