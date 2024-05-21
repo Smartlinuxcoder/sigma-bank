@@ -12,6 +12,11 @@ local sendUsername = get("send-username")
 local sendAmount = get("send-amount")
 local sendButton = get("send")
 
+local printAmount = get("print-amount")
+local printButton = get("print")
+
+local downloadButton = get("downloadbutton")
+
 local token
 
 local function formatTransactions(data)
@@ -163,4 +168,30 @@ sendButton.on_click(function()
 	else
 		result.set_content("Cannot send")
 	end
+end)
+
+printButton.on_click(function()
+	local body = "{"
+		.. '"amount": "'
+		.. printAmount.get_content()
+		.. '"'
+		.. "}"
+	print(body)
+	local res = fetch({
+		url = "https://bank.smartlinux.xyz/api/generate-pdf-link",
+		method = "POST",
+		headers = { 
+			["Content-Type"] = "application/json",
+			["Authorization"] = token 
+		},
+		body = body,
+	})
+	local fileName = res.fileName
+	local pdfLink = "https://bank.smartlinux.xyz/" .. fileName
+	downloadButton.set_href(pdfLink)
+	downloadButton.set_content("Download your banknote here")
+
+	
+
+
 end)
